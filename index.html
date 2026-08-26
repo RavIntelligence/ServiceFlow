@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>ServiceFlow MVP</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">SERVICEFLOW</div>
+        <h1 id="screenTitle">Today</h1>
+      </div>
+      <button id="addJobBtn" class="icon-btn" aria-label="Add job">＋</button>
+    </header>
+
+    <main>
+      <section id="todayScreen" class="screen active">
+        <div class="summary">
+          <div><span id="jobCount">0</span><small>Jobs</small></div>
+          <div><span id="onTimeCount">0</span><small>Open</small></div>
+          <div><span id="doneCount">0</span><small>Done</small></div>
+        </div>
+        <div id="jobsList" class="stack"></div>
+        <div id="emptyState" class="empty">
+          <h2>No jobs yet</h2>
+          <p>Add your first customer job to start the day.</p>
+          <button class="primary" onclick="showScreen('add')">Add Job</button>
+        </div>
+      </section>
+
+      <section id="addScreen" class="screen">
+        <form id="jobForm" class="form-card">
+          <label>Customer name<input id="customerName" required placeholder="Ashley Johnson"></label>
+          <label>Phone number<input id="phone" required inputmode="tel" placeholder="801-555-1234"></label>
+          <label>Address<input id="address" required placeholder="123 Main St, Salt Lake City, UT"></label>
+          <label>Job description<input id="description" required placeholder="Washer not draining"></label>
+          <div class="grid2">
+            <label>Date<input id="date" required type="date"></label>
+            <label>Time<input id="time" required type="time"></label>
+          </div>
+          <div class="grid2">
+            <label>Est. minutes<input id="duration" required type="number" min="10" step="5" value="60"></label>
+            <label>Complete by<input id="completeBy" type="date"></label>
+          </div>
+          <label>Notes<textarea id="notes" placeholder="Gate code, call on arrival, etc."></textarea></label>
+          <button type="submit" class="primary">Save Job</button>
+          <button type="button" class="secondary" onclick="showScreen('today')">Cancel</button>
+        </form>
+      </section>
+
+      <section id="settingsScreen" class="screen">
+        <div class="form-card">
+          <label>Company name<input id="companyName" value="Your Company"></label>
+          <label>Technician name<input id="techName" value="Josh"></label>
+          <label>On My Way message
+            <textarea id="onWayTemplate">Hi {first_name}, this is {tech} with {company}. I'm on my way now and should arrive in about {eta}. See you soon!</textarea>
+          </label>
+          <label>Arrival message
+            <textarea id="arrivalTemplate">Hi {first_name}, I've arrived and will be right with you.</textarea>
+          </label>
+          <label>Review request
+            <textarea id="reviewTemplate">Hi {first_name}, thanks for choosing {company}! If you were happy with your service today, we'd really appreciate a review: {review_link}</textarea>
+          </label>
+          <label>Review link<input id="reviewLink" placeholder="https://g.page/r/your-business/review"></label>
+          <label>Send review after
+            <select id="reviewDelay">
+              <option value="0">Immediately</option>
+              <option value="30">30 minutes</option>
+              <option value="120" selected>2 hours</option>
+              <option value="1440">Next day</option>
+            </select>
+          </label>
+          <button class="primary" id="saveSettingsBtn">Save Settings</button>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottomnav">
+      <button data-screen="today" class="active">Today</button>
+      <button data-screen="add">Add Job</button>
+      <button data-screen="settings">Settings</button>
+    </nav>
+  </div>
+
+  <dialog id="jobDialog">
+    <div id="jobDialogBody"></div>
+    <button class="secondary" onclick="document.getElementById('jobDialog').close()">Close</button>
+  </dialog>
+
+  <dialog id="messageDialog">
+    <h3>Message ready</h3>
+    <p id="messagePreview"></p>
+    <a id="openSmsLink" class="primary linkbtn" href="#">Open in Messages</a>
+    <button class="secondary" onclick="document.getElementById('messageDialog').close()">Cancel</button>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
