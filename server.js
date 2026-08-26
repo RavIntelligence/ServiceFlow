@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS jobs (
 `);
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(__dirname));
 
 function firstName(name) {
   return String(name || "").trim().split(/\s+/)[0] || "there";
@@ -126,7 +126,7 @@ setInterval(async () => {
 }, 60000);
 
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.listen(PORT, () => console.log(`ServiceFlow running on port ${PORT}`));
